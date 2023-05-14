@@ -28,10 +28,10 @@ const BoxModal = () => {
       Alert('fail add todo')
       return false
     } else {
-      const data = [{
+      const data = {
         "category": category,
         "description": description
-      }]
+      }
       dispatch(postData(data));
       dispatch(fetchListTodo());
 
@@ -83,15 +83,15 @@ const BoxModal = () => {
               </View>
               {type === "add" ?
                 <>
-                  <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='write category' placeholderTextColor={"black"} />
-                  <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='write description' placeholderTextColor={"black"} />
+                  <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='category' placeholderTextColor={"black"} />
+                  <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='description' placeholderTextColor={"black"} />
                   <Pressable onPress={saveTodo} style={styles.button}>
                     <Text style={styles.buttonText}>{loading ? 'Creating...' : 'Create Todo'}</Text>
                   </Pressable>
                 </> :
                 <>
-                  <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='write category' placeholderTextColor={"black"} />
-                  <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='write description' placeholderTextColor={"black"} />
+                  <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='category' placeholderTextColor={"black"} />
+                  <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='description' placeholderTextColor={"black"} />
                   <Pressable onPress={editTodo} style={styles.button}>
                     <Text style={styles.buttonText}>{loading ? 'Editing...' : 'Edit Todo'}</Text>
                   </Pressable>

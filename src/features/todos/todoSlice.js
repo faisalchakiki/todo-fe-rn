@@ -15,7 +15,6 @@ export const postData = createAsyncThunk('api/postData', async (data) => {
 });
 
 export const editData = createAsyncThunk('api/editData', async ({ id, payload }) => {
-  console.log(id, payload, 'aawww')
   return patchApiData(id, payload);
 });
 

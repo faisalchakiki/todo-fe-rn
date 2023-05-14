@@ -1,33 +1,60 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { Checklist, Edit, Trash } from '../../../assets'
 import { colors, responsiveHeight, responsiveWidth } from '../../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { addData, toggle, typeModal } from '../../../features/modal/modalSlice'
-import { deleteData, fetchDetail, fetchListTodo } from '../../../features/todos/todoSlice'
+import { deleteData, editData, fetchDetail, fetchListTodo } from '../../../features/todos/todoSlice'
 
-const CardList = ({ data }) => {
+const CardList = ({ data }) => {  
   const isVisible = useSelector(state => state.modal.isVisible)
   const type = useSelector(state => state.modal.type)
 
+  const isCompleted = data.isCompleted
   const dispatch = useDispatch()
+
   const toggleModal = () => {
     dispatch(toggle(!isVisible));
   };
-  
-  
+
   const editTodo = () => {
     dispatch(typeModal("edit"))
     dispatch(fetchDetail(data.id))
     toggleModal(!isVisible)
   }
 
-   const deleteTodo = () => {
-    console.log('first')
+  const deleteTodo = () => {
     dispatch(deleteData(data.id))
     dispatch(fetchListTodo());
-
   }
+
+  const btnChecklist = (data) => {
+    const payload = {
+      "isCompleted": !data.isCompleted,
+      "category": data?.category,
+      "description": data?.description,
+    }
+    dispatch(editData({ id: data.id, payload }));
+    dispatch(fetchListTodo());
+  }
+
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      "Are your sure?",
+      "Are you sure you want to remove todo?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteTodo()
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   return (
     <View style={styles.wrapperList}>
@@ -37,12 +64,12 @@ const CardList = ({ data }) => {
           <Text style={styles.textDate}>{data.createdAt}</Text>
           <Text style={styles.textDescription}>{data.description}</Text>
         </View>
-        <View style={styles.wrapperChecklist}>
+        <Pressable onPress={() => btnChecklist(data)} style={isCompleted ? styles.wrapperChecklistActive : styles.wrapperChecklist}>
           <Checklist />
-        </View>
+        </Pressable>
       </View>
       <View style={styles.wrapperFooterList}>
-        <Pressable onPress={deleteTodo} style={styles.wrapperFooterIcon}>
+        <Pressable onPress={showConfirmDialog} style={styles.wrapperFooterSSSSIcon}>
           <Trash />
         </Pressable>
         <Pressable style={styles.wrapperFooterIcon} onPress={editTodo}>
@@ -93,12 +120,20 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     marginBottom: responsiveHeight(5),
   },
-  wrapperChecklist: {
+  wrapperChecklistActive: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: responsiveHeight(14),
     paddingHorizontal: responsiveWidth(10),
     backgroundColor: colors.green,
+    borderRadius: 25,
+  },
+  wrapperChecklist: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: responsiveHeight(14),
+    paddingHorizontal: responsiveWidth(10),
+    backgroundColor: colors.secondary,
     borderRadius: 25,
   },
   wrapperFooterIcon: {

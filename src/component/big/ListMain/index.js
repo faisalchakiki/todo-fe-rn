@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import React, { useEffect } from 'react'
 import { responsiveHeight, responsiveWidth } from '../../../utils';
 import { fetchListTodo } from '../../../features/todos/todoSlice';
@@ -22,6 +22,7 @@ const ListMain = () => {
       {todosData?.map((data, index) => (
         <CardList key={index} data={data} />
       ))}
+      {todosData?.length === 0 && <Text style={styles.notFound}>Not Found</Text>}
       <BoxModal />
     </ScrollView>
   )
@@ -35,5 +36,11 @@ const styles = StyleSheet.create({
     paddingTop: responsiveHeight(20),
     flex: 1,
     zIndex: 0,
+  },
+  notFound: {
+    flex: 1,
+    textAlign:'center',
+    fontSize:16,
+    fontWeight:'500'
   },
 })

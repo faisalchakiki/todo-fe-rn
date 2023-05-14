@@ -27,7 +27,6 @@ export const postApiData = async (data) => {
     const response = await api.post('/todos', data);
     return response.data;
   } catch (error) {
-    console.log(error)
     throw new Error(error.message);
   }
 };
@@ -44,7 +43,6 @@ export const patchApiData = async (id, payload) => {
 export const deleteApiData = async (id) => {
   try {
     const response = await api.delete(`/todos/${id}`);
-    console.log('success')
     return response.data;
   } catch (error) {
     throw new Error(error.message);
