@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { postApiData, fetchApiTodos, deleteApiData, fetchDetailTodos } from '../../app/api'
+import { postApiData, fetchApiTodos, deleteApiData, fetchDetailTodos, patchApiData } from '../../app/api'
 
 // Define the async thunk to fetch data from the API
 export const fetchListTodo = createAsyncThunk('api/fetchListTodo', async () => {
@@ -14,7 +14,12 @@ export const postData = createAsyncThunk('api/postData', async (data) => {
   return postApiData(data);
 });
 
-export const deleteData = createAsyncThunk('api/deletetData', async (id) => {
+export const editData = createAsyncThunk('api/editData', async ({ id, payload }) => {
+  console.log(id, payload, 'aawww')
+  return patchApiData(id, payload);
+});
+
+export const deleteData = createAsyncThunk('api/deleteData', async (id) => {
   return deleteApiData(id);
 });
 
@@ -71,6 +76,17 @@ const apiSlice = createSlice({
         state.detail = action.payload;
       })
       .addCase(fetchDetail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(editData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editData.fulfilled, (state) => {
+        state.isLoading = false;
+        // Perform any necessary actions after successful post
+      })
+      .addCase(editData.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       })

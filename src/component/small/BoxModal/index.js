@@ -6,7 +6,7 @@ import Logo from "../Logo";
 import { Silang } from "../../../assets";
 import { colors, responsiveHeight, responsiveWidth } from "../../../utils";
 import Modal from "react-native-modal"
-import { fetchListTodo, postData } from "../../../features/todos/todoSlice";
+import { editData, fetchListTodo, postData } from "../../../features/todos/todoSlice";
 
 
 const BoxModal = () => {
@@ -16,7 +16,7 @@ const BoxModal = () => {
   const type = useSelector(state => state.modal.type)
   const isVisible = useSelector(state => state.modal.isVisible)
   const loading = useSelector((state) => state.todos.isLoading);
-  // const data = useSelector((state) => state?.todos?.detail?.results);
+  const data = useSelector((state) => state.todos.detail?.results);
   const dispatch = useDispatch()
 
   const toggleModal = () => {
@@ -39,53 +39,67 @@ const BoxModal = () => {
     setCategory('');
     setDescription('');
     toggleModal()
-
   };
 
-  // const MainModal = () => {
-  //   if (type === "add") {
-  //     return (
-  //       <>
-  //         <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='write category' placeholderTextColor={"black"} />
-  //         <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='write description' placeholderTextColor={"black"} />
-  //         <Pressable onPress={saveTodo} style={styles.button}>
-  //           <Text style={styles.buttonText}>{loading ? 'Creating...' : 'Create Todo'}</Text>
-  //         </Pressable>
-  //       </>
-  //     )
-  //   }
+  const editTodo = () => {
+    if (category === '' || description === '') {
+      Alert('fail add todo')
+      return false
+    } else {
+      const payload = {
+        "category": category,
+        "description": description
+      }
 
-  //   if (type === "edit") {
-  //     setCategory(data.category)
-  //     setDescription(data.description)
-  //     return (
-  //       <>
-  //         <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='write category' placeholderTextColor={"black"} />
-  //         <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='write description' placeholderTextColor={"black"} />
-  //         <Pressable onPress={saveTodo} style={styles.button}>
-  //           <Text style={styles.buttonText}>{loading ? 'Editing...' : 'Edit Todo'}</Text>
-  //         </Pressable>
-  //       </>
-  //     )
-  //   }
-  // }
+      dispatch(editData({ id: data.id, payload }));
+      dispatch(fetchListTodo());
+    }
+    setCategory('');
+    setDescription('');
+    toggleModal()
+  };
+
+  useEffect(() => {
+    if (type === "edit") {
+      setCategory(data?.category)
+      setDescription(data?.description)
+    } else {
+      setCategory("")
+      setDescription("")
+    }
+  }, [data, type])
 
   return (
     <View style={styles.container}>
       <Modal isVisible={isVisible}>
         <View style={styles.modalContainer} >
-          <View style={styles.flex}>
-            <Logo color='black' size={14} />
-            <Pressable onPress={toggleModal} >
-              <Silang />
-            </Pressable>
-          </View>
-          {/* <MainModal /> */}
-          <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='write category' placeholderTextColor={"black"} />
-          <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='write description' placeholderTextColor={"black"} />
-          <Pressable onPress={saveTodo} style={styles.button}>
-            <Text style={styles.buttonText}>{loading ? 'Editing...' : 'Edit Todo'}</Text>
-          </Pressable>
+          {loading ? <Text>Loading...</Text> :
+            <>
+              <View style={styles.flex}>
+                <Logo color='black' size={14} />
+                <Pressable onPress={toggleModal} >
+                  <Silang />
+                </Pressable>
+              </View>
+              {type === "add" ?
+                <>
+                  <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='write category' placeholderTextColor={"black"} />
+                  <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='write description' placeholderTextColor={"black"} />
+                  <Pressable onPress={saveTodo} style={styles.button}>
+                    <Text style={styles.buttonText}>{loading ? 'Creating...' : 'Create Todo'}</Text>
+                  </Pressable>
+                </> :
+                <>
+                  <TextInput value={category} onChangeText={(e) => setCategory(e)} style={styles.input} placeholder='write category' placeholderTextColor={"black"} />
+                  <TextInput value={description} onChangeText={(e) => setDescription(e)} style={styles.input} multiline={true} placeholder='write description' placeholderTextColor={"black"} />
+                  <Pressable onPress={editTodo} style={styles.button}>
+                    <Text style={styles.buttonText}>{loading ? 'Editing...' : 'Edit Todo'}</Text>
+                  </Pressable>
+                </>
+              }
+            </>
+          }
+
         </View>
       </Modal>
     </View>

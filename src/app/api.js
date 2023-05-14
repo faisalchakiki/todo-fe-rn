@@ -32,9 +32,9 @@ export const postApiData = async (data) => {
   }
 };
 
-export const patchApiData = async (id, updatedData) => {
+export const patchApiData = async (id, payload) => {
   try {
-    const response = await api.patch(`/todos/${id}`, updatedData);
+    const response = await api.patch(`/todos/${id}`, payload);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
