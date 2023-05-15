@@ -33,14 +33,23 @@ export default ListMain
 const styles = StyleSheet.create({
   mainContainer: {
     marginTop: responsiveHeight(105),
-    paddingTop: responsiveHeight(20),
+    paddingTop: responsiveHeight(30),
     flex: 1,
     zIndex: 0,
   },
   notFound: {
     flex: 1,
-    textAlign:'center',
-    fontSize:16,
-    fontWeight:'500'
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '500'
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 })

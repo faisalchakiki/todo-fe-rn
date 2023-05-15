@@ -24,17 +24,17 @@ const BoxModal = () => {
   };
 
   const saveTodo = () => {
-    if (category === false || description === false) {
-      Alert('fail add todo')
+    if (category === '' || description === '') {
+      Alert.alert('Please fill all the input')
       return false
     } else {
       const data = {
         "category": category,
         "description": description
       }
-      dispatch(postData(data));
-      dispatch(fetchListTodo());
-
+      dispatch(postData(data)).unwrap().then(() => {
+        dispatch(fetchListTodo());
+      });
     }
     setCategory('');
     setDescription('');
@@ -43,16 +43,18 @@ const BoxModal = () => {
 
   const editTodo = () => {
     if (category === '' || description === '') {
-      Alert('fail add todo')
+      Alert.alert('Please fill all the input')
       return false
     } else {
       const payload = {
         "category": category,
-        "description": description
+        "description": description,
+        "isCompleted": data.isCompleted
       }
 
-      dispatch(editData({ id: data.id, payload }));
-      dispatch(fetchListTodo());
+      dispatch(editData({ id: data.id, payload })).unwrap().then(() => {
+        dispatch(fetchListTodo());
+      });
     }
     setCategory('');
     setDescription('');

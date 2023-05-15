@@ -82,7 +82,7 @@ const apiSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editData.fulfilled, (state) => {
-        state.isLoading = false;
+        state.isLoading = true;
         // Perform any necessary actions after successful post
       })
       .addCase(editData.rejected, (state, action) => {

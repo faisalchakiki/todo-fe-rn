@@ -1,4 +1,4 @@
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Pressable, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import React, { useEffect } from 'react'
 import { Checklist, Edit, Trash } from '../../../assets'
 import { colors, responsiveHeight, responsiveWidth } from '../../../utils'
@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addData, toggle, typeModal } from '../../../features/modal/modalSlice'
 import { deleteData, editData, fetchDetail, fetchListTodo } from '../../../features/todos/todoSlice'
 
-const CardList = ({ data }) => {  
+const CardList = ({ data }) => {
   const isVisible = useSelector(state => state.modal.isVisible)
+  const isLoading = useSelector(state => state.todos.isLoading)
   const type = useSelector(state => state.modal.type)
 
   const isCompleted = data.isCompleted
@@ -24,8 +25,9 @@ const CardList = ({ data }) => {
   }
 
   const deleteTodo = () => {
-    dispatch(deleteData(data.id))
-    dispatch(fetchListTodo());
+    dispatch(deleteData(data.id)).unwrap().then(() => {
+      dispatch(fetchListTodo());
+    });
   }
 
   const btnChecklist = (data) => {
@@ -34,8 +36,9 @@ const CardList = ({ data }) => {
       "category": data?.category,
       "description": data?.description,
     }
-    dispatch(editData({ id: data.id, payload }));
-    dispatch(fetchListTodo());
+    dispatch(editData({ id: data.id, payload })).unwrap().then(() => {
+      dispatch(fetchListTodo());
+    });
   }
 
   const showConfirmDialog = () => {
@@ -55,6 +58,16 @@ const CardList = ({ data }) => {
       ]
     );
   };
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.horizontal]} >
+        <ActivityIndicator size="large" />
+      </View >
+    )
+  }
+
+  console.log(data)
 
   return (
     <View style={styles.wrapperList}>
