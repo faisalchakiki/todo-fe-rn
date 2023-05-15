@@ -1,12 +1,16 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import { ListMain, Logo } from '../../component';
 import { colors, responsiveHeight, responsiveWidth } from '../../utils';
 import AddButton from '../../component/small/AddButton';
 
 const Homepage = () => {
+  useEffect(() => {
+    StatusBar.setBackgroundColor(colors.primary);
+  }, []);
   return (
-    <SafeAreaView style={styles.safeView}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary }}>
+      {/* <StatusBar backgroundColor="white" translucent={true} hidden={true} /> */}
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <Logo />
@@ -29,11 +33,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
     position: 'relative',
-    paddingTop: 0,
   },
   headerContainer: {
     backgroundColor: colors.primary,
-    paddingTop: responsiveHeight(50),
+    paddingTop: responsiveHeight(10),
     paddingBottom: responsiveHeight(20),
     justifyContent: 'space-between',
     flexDirection: 'row',

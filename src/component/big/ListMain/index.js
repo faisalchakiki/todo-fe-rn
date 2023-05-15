@@ -38,7 +38,7 @@ export default ListMain
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginTop: responsiveHeight(105),
+    marginTop: responsiveHeight(75),
     paddingTop: responsiveHeight(30),
     flex: 1,
     zIndex: 0,
