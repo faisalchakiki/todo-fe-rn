@@ -4,11 +4,7 @@
     "slug": "rntodoapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": {
-      "image":"./src/assets/icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/assets/splash.png",
@@ -24,7 +20,6 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
-        "resizeMode": "contain",
         "backgroundColor": "#ffffff"
       },
       "package": "com.rntodoapp.myapp"
