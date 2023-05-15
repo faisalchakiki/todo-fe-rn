@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { responsiveHeight, responsiveWidth } from '../../../utils';
 import { fetchListTodo } from '../../../features/todos/todoSlice';
@@ -8,14 +8,20 @@ import { BoxModal, CardList } from '../../small';
 
 const ListMain = () => {
   const dispatch = useDispatch();
-  const testData = useSelector((state) => state);
+  const isLoading = useSelector(state => state.todos.isLoading)
   const todosData = useSelector((state) => state.todos?.data?.results);
 
   useEffect(() => {
     dispatch(fetchListTodo());
   }, [dispatch])
 
-  // console.log(testData)
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.horizontal]} >
+        <ActivityIndicator size="large" />
+      </View >
+    )
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.mainContainer}>

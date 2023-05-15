@@ -1,28 +1,35 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { ListMain, Logo } from '../../component';
 import { colors, responsiveHeight, responsiveWidth } from '../../utils';
 import AddButton from '../../component/small/AddButton';
 
 const Homepage = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Logo />
-        <AddButton />
+    <SafeAreaView style={styles.safeView}>
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Logo />
+          <AddButton />
+        </View>
+        <ListMain />
       </View>
-      <ListMain />
-    </View>
+    </SafeAreaView>
   )
 }
 
 export default Homepage
 
 const styles = StyleSheet.create({
+  safeView: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
   container: {
     flex: 1,
     backgroundColor: colors.white,
     position: 'relative',
+    paddingTop: 0,
   },
   headerContainer: {
     backgroundColor: colors.primary,

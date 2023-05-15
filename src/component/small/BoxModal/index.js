@@ -12,7 +12,6 @@ import { editData, fetchListTodo, postData } from "../../../features/todos/todoS
 const BoxModal = () => {
   const [category, setCategory] = React.useState("");
   const [description, setDescription] = React.useState("");
-  // console.log(category, description)
   const type = useSelector(state => state.modal.type)
   const isVisible = useSelector(state => state.modal.isVisible)
   const loading = useSelector((state) => state.todos.isLoading);

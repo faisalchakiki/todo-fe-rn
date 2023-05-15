@@ -59,16 +59,6 @@ const CardList = ({ data }) => {
     );
   };
 
-  if (isLoading) {
-    return (
-      <View style={[styles.container, styles.horizontal]} >
-        <ActivityIndicator size="large" />
-      </View >
-    )
-  }
-
-  console.log(data)
-
   return (
     <View style={styles.wrapperList}>
       <View style={styles.wrapperMainList}>
