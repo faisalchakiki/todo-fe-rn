@@ -1,5 +1,5 @@
 ## Todo App with React Native
-### This is assignment project Im built with React Native (Expo) using data from Express API [backend-ToDoApp](https://github.com/faisalchakiki/backend-ToDoApp).
+### This is assignment project Im built with React Native (Expo) using data from Express API [backend-todoApp](https://github.com/faisalchakiki/backend-ToDoApp).
 
 ### How to run this project
 1. Clone this repo
